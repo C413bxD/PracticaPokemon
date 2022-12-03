@@ -4,6 +4,13 @@
     <div v-if="data">
       <img :src="data.sprites?.front_default" alt="" />
       <h1>Pokemon: {{ $route.params.namePoke }}</h1>
+      <button
+        @click="add(data)"
+        class="btn btn-primary mb-2"
+        :disabled="find(data.name)"
+      >
+        Agregar a favoritos
+      </button>
     </div>
     <div v-if="error" class="alert alert-danger">No existe pokemon</div>
     <button @click="back()" class="btn btn-outline-primary">Volver</button>
@@ -14,8 +21,12 @@
 //import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useGetData } from "../composables/getData";
+import { useFavoritosStore } from "@/store/favoritos.js";
+
 const route = useRoute();
 const router = useRouter();
+const useFavoritos = useFavoritosStore();
+const { add, find } = useFavoritos;
 const { data, getData, loading, error } = useGetData();
 // const pokemon = ref({});
 // const getData = async () => {
